@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>China Driver's License Test (Subject 1) — Practice Portal</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --success-bg: #dcfce7;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --badge-bg: #f1f5f9;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #60a5fa;
+      --border: #334155;
+      --success: #22c55e;
+      --success-bg: #14532d;
+      --danger: #ef4444;
+      --danger-bg: #7f1d1d;
+      --badge-bg: #334155;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scrollbar-gutter: stable; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: static;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .badge-flag {
+      font-size: 1.35rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    button, select, input {
+      font: inherit;
+      padding: 0.45rem 0.8rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    button:hover { background: var(--border); }
+    button.btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    button.btn-primary:hover { background: var(--primary-hover); }
+
+    button.btn-danger {
+      background: var(--danger);
+      color: #fff;
+      border-color: var(--danger);
+    }
+    button.btn-danger:hover {
+      background: #b91c1c;
+      border-color: #b91c1c;
+    }
+
+    button.btn-outline-danger {
+      background: transparent;
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+    button.btn-outline-danger:hover {
+      background: var(--danger-bg);
+    }
+
+    .btn-sm {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.85rem;
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 900px;
+      margin: 1rem auto;
+      padding: 0 1rem 3.5rem;
+    }
+
+    /* Mode selector segmented tabs */
+    .mode-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .segmented-control {
+      display: inline-flex;
+      background: var(--badge-bg);
+      padding: 3px;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .seg-btn {
+      border: none;
+      background: transparent;
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.35rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .seg-btn:hover {
+      color: var(--text);
+      background: rgba(0,0,0,0.04);
+    }
+
+    .seg-btn.active {
+      background: var(--card-bg);
+      color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    /* Control Panel */
+    .control-panel {
+      background: var(--card-bg);
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--border);
+      margin-bottom: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .filters-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .stat-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .stat-metric {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Mock exam status bar */
+    .mock-active-bar {
+      display: none;
+      background: var(--card-bg);
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      border: 1.5px solid var(--primary);
+      margin-bottom: 0.85rem;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-card {
+      background: var(--card-bg);
+      border-radius: 0.75rem;
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1rem;
+    }
+
+    /* Vertical on mobile */
+    .quiz-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .quiz-col-left {
+      min-width: 0;
+    }
+
+    .quiz-col-right {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .tag-pill {
+      background: var(--badge-bg);
+      color: var(--text-muted);
+      padding: 0.2rem 0.55rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .tag-pill.badge-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .tag-pill.badge-correct {
+      background: var(--success-bg);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .tag-pill.badge-wrong {
+      background: var(--danger-bg);
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .tag-pill.badge-unanswered {
+      background: var(--badge-bg);
+      color: var(--text-muted);
+    }
+
+    .img-wrap {
+      text-align: center;
+      margin: 0.75rem 0;
+    }
+
+    .img-wrap img {
+      max-height: 250px;
+      max-width: 100%;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      object-fit: contain;
+    }
+
+    .question-title-en {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      line-height: 1.4;
+    }
+
+    .question-title-zh {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .opt-btn {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 0.5rem;
+      background: var(--card-bg);
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.95rem;
+      line-height: 1.35;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--badge-bg);
+    }
+
+    .opt-btn:disabled {
+      cursor: default;
+    }
+
+    .opt-btn .opt-lbl {
+      font-weight: 700;
+      min-width: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .opt-btn.correct {
+      border-color: var(--success) !important;
+      background: var(--success-bg) !important;
+      color: var(--success) !important;
+      font-weight: 600;
+    }
+
+    .opt-btn.wrong {
+      border-color: var(--danger) !important;
+      background: var(--danger-bg) !important;
+      color: var(--danger) !important;
+    }
+
+    .explanation-container {
+      margin-top: 0.5rem;
+      padding: 0.85rem 1rem;
+      border-radius: 0.5rem;
+      background: var(--badge-bg);
+      border-left: 4px solid var(--primary);
+      display: none;
+      font-size: 0.9rem;
+    }
+
+    .explanation-container.visible { display: block; }
+
+    .expl-header {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .expl-text {
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+    }
+
+    .expl-law {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      border-top: 1px dashed var(--border);
+      padding-top: 0.4rem;
+      line-height: 1.4;
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .nav-jump {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.88rem;
+    }
+
+    .jump-input {
+      width: 60px;
+      text-align: center;
+      padding: 0.35rem 0.4rem;
+      cursor: text;
+    }
+
+    .summary-screen {
+      display: none;
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .score-circle {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin: 1rem 0;
+    }
+
+    .score-pass { color: var(--success); }
+    .score-fail { color: var(--danger); }
+
+    /* =========================================================
+       DESKTOP / LAPTOP HORIZONTAL LAYOUT
+       Ensures all content fits on screen without scrolling
+       ========================================================= */
+    @media (min-width: 860px) {
+      main {
+        max-width: 1200px;
+        margin: 0.85rem auto;
+        padding: 0 1.25rem 4.5rem;
+      }
+
+      .control-panel {
+        padding: 0.6rem 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .quiz-card {
+        padding: 1.15rem 1.35rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .quiz-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 1.15fr;
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .img-wrap {
+        margin: 0.5rem 0 0 0;
+      }
+
+      .img-wrap img {
+        max-height: 220px;
+      }
+
+      .question-title-en {
+        font-size: 1.15rem;
+        margin-bottom: 0.35rem;
+      }
+
+      .question-title-zh {
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .options-grid {
+        margin-bottom: 0.55rem;
+        gap: 0.5rem;
+      }
+
+      .opt-btn {
+        padding: 0.65rem 0.95rem;
+        font-size: 0.92rem;
+      }
+
+      .explanation-container {
+        margin-top: 0.45rem;
+        padding: 0.75rem 0.95rem;
+        max-height: 190px;
+        overflow-y: auto;
+      }
+
+      .footer-nav {
+        margin-top: 0.85rem;
+        padding-top: 0.75rem;
+      }
+    }
+
+    /* =========================================================
+       FULLSCREEN QUIZ VIEW
+       Preserves two-column layout on desktop, single column on mobile,
+       toggle button floats in the top-right corner
+       ========================================================= */
+    #quizView { position: relative; }
+
+    .fs-btn {
+      position: absolute;
+      top: 0.65rem;
+      right: 0.65rem;
+      z-index: 50;
+      padding: 0.32rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.2;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      opacity: 0.92;
+    }
+    .fs-btn:hover { opacity: 1; background: var(--badge-bg); }
+
+    /* Keep the status badges clear of the floating button */
+    #quizView .card-meta { padding-right: 8.5rem; }
+
+    #quizView.is-fullscreen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      padding: 0.9rem;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    #quizView.is-fullscreen .quiz-card {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      max-width: none;
+      margin: 0;
+    }
+
+    #quizView.is-fullscreen .fs-btn {
+      top: 1.35rem;
+      right: 1.35rem;
+    }
+
+    #quizView.is-fullscreen .quiz-grid {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    #quizView.is-fullscreen .question-title-en { font-size: 1.35rem; }
+    #quizView.is-fullscreen .question-title-zh { font-size: 1rem; }
+    #quizView.is-fullscreen .img-wrap img { max-height: 44vh; }
+    #quizView.is-fullscreen .explanation-container {
+      max-height: 36vh;
+      overflow-y: auto;
+    }
+
+    @media (min-width: 860px) {
+      /* In the two-column layout the button sits above the options column */
+      #quizView .quiz-col-right { padding-top: 2.35rem; }
+
+      #quizView.is-fullscreen .quiz-grid {
+        grid-template-rows: minmax(0, 1fr);
+      }
+
+      #quizView.is-fullscreen .quiz-col-left,
+      #quizView.is-fullscreen .quiz-col-right {
+        max-height: 100%;
+        overflow-y: auto;
+      }
+    }
+
+    @media (max-width: 859px) {
+      #quizView.is-fullscreen .quiz-grid {
+        overflow-y: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      #quizView.is-fullscreen .question-title-en { font-size: 1.25rem; }
+      #quizView.is-fullscreen .img-wrap img { max-height: 32vh; }
+      #quizView .card-meta { padding-right: 7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span class="badge-flag">🇨🇳</span>
+      <span>China Driving Test — Subject 1 Practice</span>
+    </div>
+    <div class="nav-actions">
+      <button id="themeToggle" title="Toggle dark/light mode">🌓 Mode</button>
+      <button id="exitExamTopBtn" class="btn-danger" style="display:none;" title="Exit the ongoing mock exam">✕ Exit Exam</button>
+      <button id="mockExamBtn" class="btn-primary">⚡ 100-Question Mock Exam</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Study Mode Segmented Control Bar -->
+    <div class="mode-bar" id="modeBar">
+      <div class="segmented-control" role="tablist">
+        <button id="modeSeqBtn" class="seg-btn active" title="Go through all 2,545 questions sequentially">📖 Sequential Practice (All 2,545)</button>
+        <button id="modeTechBtn" class="seg-btn" title="Only speed limits, points, fines, distances, vehicle instruments, mechanics and technical terms">🎯 Technical & Rules Drill (~1,117)</button>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <button id="resetProgressBtn" class="btn-sm btn-outline-danger" title="Clear your recorded answers and reset position">🔄 Reset Progress</button>
+      </div>
+    </div>
+
+    <!-- Active Mock Exam Bar (replaces controls during timed exam) -->
+    <div class="mock-active-bar" id="mockActiveBar">
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <span style="font-weight:700;color:var(--primary);">⚡ Mock Exam Simulation</span>
+        <span id="mockProgressText" style="font-weight:600;font-size:0.95rem;">Question 1 / 100</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.25rem;">
+        <span id="timerDisplay" style="color:var(--danger);font-weight:800;font-size:1.15rem;">⏱ 45:00</span>
+        <button id="exitExamBtn" class="btn-danger btn-sm">✕ Exit Exam</button>
+      </div>
+    </div>
+
+    <!-- Practice Control Panel -->
+    <div class="control-panel" id="practiceControlPanel">
+      <div class="filters-group">
+        <label>
+          Topic:
+          <select id="topicFilter">
+            <option value="all">All Topics</option>
+            <option value="penalty_points">Penalty Points (All)</option>
+            <option value="points_12">12-Point Deductions</option>
+            <option value="points_6">6-Point Deductions</option>
+            <option value="points_3">3-Point Deductions</option>
+            <option value="points_1">1-Point Deductions</option>
+            <option value="signs_markings">Signs & Road Markings</option>
+            <option value="warning_signs">Warning Signs</option>
+            <option value="prohibition_signs">Prohibition Signs</option>
+            <option value="guide_signs">Guide Signs</option>
+            <option value="speed_limits">Speed Limits</option>
+            <option value="expressway">Expressway Rules</option>
+            <option value="fines_and_penalties">Fines & Legal Detention</option>
+            <option value="emergency_accidents">Accidents & Emergencies</option>
+            <option value="night_and_lights">Night Driving & Headlights</option>
+            <option value="police_gestures">Police Hand Signals</option>
+          </select>
+        </label>
+
+        <label>
+          Chapter:
+          <select id="chapterFilter">
+            <option value="all">All Chapters</option>
+          </select>
+        </label>
+
+        <label style="display:flex;align-items:center;gap:0.35rem;cursor:pointer;">
+          <input type="checkbox" id="imagesOnly">
+          Images Only
+        </label>
+      </div>
+
+      <div class="stat-bar">
+        <span class="stat-metric" title="Total answered in local DB">
+          Answered: <strong id="progressAnswered">0</strong>/<span id="progressTotal">2545</span>
+        </span>
+        <span class="stat-metric" style="color:var(--success);" title="Total answered correctly">
+          ✅ <strong id="progressCorrect">0</strong>
+        </span>
+        <span class="stat-metric" style="color:var(--danger);" title="Total answered incorrectly">
+          ❌ <strong id="progressWrong">0</strong>
+        </span>
+      </div>
+    </div>
+
+    <!-- Question View -->
+    <div id="quizView">
+      <button id="fullscreenBtn" class="fs-btn" type="button" title="Enter fullscreen (F)">⛶ Fullscreen</button>
+      <div class="quiz-card">
+        <div class="quiz-grid">
+          <!-- Left Column: Metadata, Question Text & Diagram -->
+          <div class="quiz-col-left">
+            <div class="quiz-question-body">
+              <div class="card-meta" id="cardMeta"></div>
+              <div class="question-title-en" id="questionEN"></div>
+              <div class="question-title-zh" id="questionZH"></div>
+              <div class="img-wrap" id="imgWrap" style="display:none;">
+                <img id="questionImg" src="" alt="Traffic Diagram">
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Answer Options & Explanations -->
+          <div class="quiz-col-right">
+            <div class="options-grid" id="optionsGrid"></div>
+
+            <div class="explanation-container" id="explanationBox">
+              <div class="expl-header">💡 Explanation & Reason</div>
+              <div class="expl-text" id="whyText"></div>
+              <div class="expl-law" id="lawText"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Navigation & Jumping -->
+        <div class="footer-nav">
+          <button id="prevBtn">⬅ Previous</button>
+
+          <div class="nav-jump">
+            <button id="retakeBtn" class="btn-sm" style="display:none;" title="Clear saved answer for this question and re-attempt">↺ Retake</button>
+            <span>Question</span>
+            <input type="number" id="jumpInput" class="jump-input" min="1" max="2545" title="Type question number and press Enter to jump">
+            <span id="jumpTotalText">/ 2545</span>
+            <button id="jumpBtn" class="btn-sm">Go</button>
+          </div>
+
+          <button id="nextBtn" class="btn-primary">Next ➡</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Screen (Mock Exam Results) -->
+    <div class="summary-screen" id="summaryView">
+      <h2 id="summaryStatus">Exam Finished</h2>
+      <div class="score-circle" id="summaryScore">0/100</div>
+      <p id="summaryMessage" style="font-size:1.1rem;margin-bottom:1.5rem;"></p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button id="restartBtn" class="btn-primary" style="font-size:1rem;padding:0.6rem 1.5rem;">⚡ Try Exam Again</button>
+        <button id="exitSummaryBtn" style="font-size:1rem;padding:0.6rem 1.5rem;">📖 Return to Practice</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="test_data.js"></script>
+  <script>
+    // =========================================================
+    // LOCAL DB STORAGE HELPER
+    // Persists answered questions, choices, accuracy, and last index
+    // =========================================================
+    const DB_KEY = 'cndriving_progress_v1';
+    const LocalDB = {
+      load() {
+        try {
+          const raw = localStorage.getItem(DB_KEY);
+          if (!raw) return { lastSeqIndex: 0, lastTechIndex: 0, answers: {} };
+          const data = JSON.parse(raw);
+          if (!data.answers) data.answers = {};
+          return data;
+        } catch (e) {
+          console.warn('LocalDB read error:', e);
+          return { lastSeqIndex: 0, lastTechIndex: 0, answers: {} };
+        }
+      },
+      save(data) {
+        try {
+          localStorage.setItem(DB_KEY, JSON.stringify(data));
+        } catch (e) {
+          console.warn('LocalDB save error:', e);
+        }
+      },
+      recordAnswer(questionId, userAnswer, isCorrect) {
+        const data = this.load();
+        data.answers[questionId] = {
+          userAnswer: userAnswer,
+          isCorrect: !!isCorrect,
+          answeredAt: Date.now()
+        };
+        this.save(data);
+      },
+      getAnswer(questionId) {
+        const data = this.load();
+        return data.answers[questionId] || null;
+      },
+      clearAnswer(questionId) {
+        const data = this.load();
+        if (data.answers[questionId]) {
+          delete data.answers[questionId];
+          this.save(data);
+        }
+      },
+      savePosition(mode, index) {
+        const data = this.load();
+        if (mode === 'technical') {
+          data.lastTechIndex = index;
+        } else {
+          data.lastSeqIndex = index;
+        }
+        this.save(data);
+      },
+      getLastPosition(mode) {
+        const data = this.load();
+        return (mode === 'technical') ? (data.lastTechIndex || 0) : (data.lastSeqIndex || 0);
+      },
+      reset() {
+        try {
+          localStorage.removeItem(DB_KEY);
+        } catch (e) {}
+      },
+      getStats(pool) {
+        const data = this.load();
+        let answered = 0;
+        let correct = 0;
+        let wrong = 0;
+        if (!pool || !pool.length) return { answered, correct, wrong };
+        const idSet = new Set(pool.map(q => q.id));
+        for (const [id, rec] of Object.entries(data.answers)) {
+          if (idSet.has(id)) {
+            answered++;
+            if (rec.isCorrect) correct++;
+            else wrong++;
+          }
+        }
+        return { answered, correct, wrong };
+      }
+    };
+
+    // Global application state
+    const allQuestions = window.QUESTIONS_DATA || [];
+    let currentMode = 'sequential'; // 'sequential' | 'technical' | 'mock'
+    let currentPool = [];
+    let currentIndex = 0;
+    let isMockMode = false;
+    let timerInterval = null;
+    let timeRemaining = 45 * 60;
+    let mockExamAnswers = {}; // In-memory session tracking for mock exam
+
+    // Theme toggle
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    });
+
+    // Populate chapters dropdown
+    const chapterFilter = document.getElementById('chapterFilter');
+    const chapters = [...new Set(allQuestions.map(q => q.chapter_en).filter(Boolean))].sort();
+    chapters.forEach(ch => {
+      const opt = document.createElement('option');
+      opt.value = ch;
+      opt.textContent = ch;
+      chapterFilter.appendChild(opt);
+    });
+
+    // Switch study mode
+    const modeSeqBtn = document.getElementById('modeSeqBtn');
+    const modeTechBtn = document.getElementById('modeTechBtn');
+
+    function setStudyMode(mode) {
+      if (isMockMode) return;
+      currentMode = mode;
+      if (mode === 'technical') {
+        modeTechBtn.classList.add('active');
+        modeSeqBtn.classList.remove('active');
+      } else {
+        modeSeqBtn.classList.add('active');
+        modeTechBtn.classList.remove('active');
+      }
+      filterQuestions(true);
+    }
+
+    modeSeqBtn.addEventListener('click', () => setStudyMode('sequential'));
+    modeTechBtn.addEventListener('click', () => setStudyMode('technical'));
+
+    // Filter questions based on mode, topic, chapter, images
+    function filterQuestions(restoreSavedPos = false) {
+      if (isMockMode) return;
+      const topic = document.getElementById('topicFilter').value;
+      const chapter = chapterFilter.value;
+      const imagesOnly = document.getElementById('imagesOnly').checked;
+
+      currentPool = allQuestions.filter(q => {
+        // Mode filter: Technical vs All
+        if (currentMode === 'technical' && !q.is_technical) return false;
+
+        // Topic filter
+        if (topic !== 'all' && (!q.tags || !q.tags.includes(topic))) return false;
+
+        // Chapter filter
+        if (chapter !== 'all' && q.chapter_en !== chapter) return false;
+
+        // Images only
+        if (imagesOnly && !q.has_image) return false;
+
+        return true;
+      });
+
+      if (restoreSavedPos) {
+        const savedPos = LocalDB.getLastPosition(currentMode);
+        currentIndex = (savedPos >= 0 && savedPos < currentPool.length) ? savedPos : 0;
+      } else {
+        currentIndex = 0;
+      }
+
+      updateScore();
+      renderQuestion();
+    }
+
+    document.getElementById('topicFilter').addEventListener('change', () => filterQuestions(false));
+    chapterFilter.addEventListener('change', () => filterQuestions(false));
+    document.getElementById('imagesOnly').addEventListener('change', () => filterQuestions(false));
+
+    // Reset Progress Button
+    document.getElementById('resetProgressBtn').addEventListener('click', () => {
+      const confirmMsg = "Are you sure you want to reset all tracked progress?\n\nThis will clear all saved answers and return your practice session to Question 1.";
+      if (confirm(confirmMsg)) {
+        LocalDB.reset();
+        currentIndex = 0;
+        updateScore();
+        renderQuestion();
+      }
+    });
+
+    // Retake individual question
+    document.getElementById('retakeBtn').addEventListener('click', () => {
+      if (isMockMode || !currentPool.length) return;
+      const q = currentPool[currentIndex];
+      LocalDB.clearAnswer(q.id);
+      updateScore();
+      renderQuestion();
+    });
+
+    // Jump to question
+    function performJump() {
+      const input = document.getElementById('jumpInput');
+      const val = parseInt(input.value, 10);
+      if (!isNaN(val) && val >= 1 && val <= currentPool.length) {
+        currentIndex = val - 1;
+        if (!isMockMode) {
+          LocalDB.savePosition(currentMode, currentIndex);
+        }
+        renderQuestion();
+      } else {
+        input.value = currentIndex + 1;
+      }
+    }
+
+    document.getElementById('jumpBtn').addEventListener('click', performJump);
+    document.getElementById('jumpInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        performJump();
+      }
+    });
+
+    // =========================================================
+    // MOCK EXAM SYSTEM WITH CLEAN EXIT
+    // =========================================================
+    function startMockExam() {
+      isMockMode = true;
+      mockExamAnswers = {};
+
+      document.getElementById('summaryView').style.display = 'none';
+      document.getElementById('quizView').style.display = 'block';
+
+      // Switch header & panel views
+      document.getElementById('modeBar').style.display = 'none';
+      document.getElementById('practiceControlPanel').style.display = 'none';
+      document.getElementById('mockActiveBar').style.display = 'flex';
+      document.getElementById('mockExamBtn').style.display = 'none';
+      document.getElementById('exitExamTopBtn').style.display = 'inline-block';
+
+      // 100 random questions
+      const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+      currentPool = shuffled.slice(0, 100);
+      currentIndex = 0;
+
+      timeRemaining = 45 * 60;
+      const timerEl = document.getElementById('timerDisplay');
+
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const mins = Math.floor(timeRemaining / 60);
+        const secs = timeRemaining % 60;
+        timerEl.textContent = `⏱ ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          finishMockExam();
+        }
+      }, 1000);
+
+      updateScore();
+      renderQuestion();
+    }
+
+    function exitMockExam() {
+      const confirmExit = confirm("Are you sure you want to exit the mock exam?\n\nYour current exam progress will be lost and you will return to practice mode.");
+      if (!confirmExit) return;
+
+      if (timerInterval) clearInterval(timerInterval);
+      isMockMode = false;
+
+      // Restore UI controls
+      document.getElementById('mockActiveBar').style.display = 'none';
+      document.getElementById('modeBar').style.display = 'flex';
+      document.getElementById('practiceControlPanel').style.display = 'flex';
+      document.getElementById('mockExamBtn').style.display = 'inline-block';
+      document.getElementById('exitExamTopBtn').style.display = 'none';
+      document.getElementById('summaryView').style.display = 'none';
+      document.getElementById('quizView').style.display = 'block';
+
+      // Restore practice pool & position
+      filterQuestions(true);
+    }
+
+    document.getElementById('mockExamBtn').addEventListener('click', startMockExam);
+    document.getElementById('exitExamBtn').addEventListener('click', exitMockExam);
+    document.getElementById('exitExamTopBtn').addEventListener('click', exitMockExam);
+
+    function finishMockExam() {
+      if (timerInterval) clearInterval(timerInterval);
+      document.getElementById('quizView').style.display = 'none';
+      document.getElementById('mockActiveBar').style.display = 'none';
+      document.getElementById('exitExamTopBtn').style.display = 'none';
+
+      const summaryView = document.getElementById('summaryView');
+      summaryView.style.display = 'block';
+
+      // Calculate score from 100 questions
+      let examScore = 0;
+      currentPool.forEach(q => {
+        if (mockExamAnswers[q.id] && mockExamAnswers[q.id].isCorrect) {
+          examScore++;
+        }
+      });
+
+      const pass = examScore >= 90;
+      const statusEl = document.getElementById('summaryStatus');
+      const scoreEl = document.getElementById('summaryScore');
+      const msgEl = document.getElementById('summaryMessage');
+
+      statusEl.textContent = pass ? "🎉 Congratulations! You Passed!" : "❌ Exam Failed";
+      scoreEl.className = `score-circle ${pass ? 'score-pass' : 'score-fail'}`;
+      scoreEl.textContent = `${examScore} / 100`;
+      msgEl.textContent = pass
+        ? "You achieved the official passing threshold of 90 points or higher on Subject 1!"
+        : "You scored below the official passing mark of 90 points. Keep practicing with Sequential and Technical Drill modes!";
+    }
+
+    document.getElementById('restartBtn').addEventListener('click', startMockExam);
+
+    document.getElementById('exitSummaryBtn').addEventListener('click', () => {
+      isMockMode = false;
+      document.getElementById('summaryView').style.display = 'none';
+      document.getElementById('quizView').style.display = 'block';
+      document.getElementById('modeBar').style.display = 'flex';
+      document.getElementById('practiceControlPanel').style.display = 'flex';
+      document.getElementById('mockExamBtn').style.display = 'inline-block';
+      filterQuestions(true);
+    });
+
+    // Update stats bar
+    function updateScore() {
+      if (isMockMode) {
+        let answered = Object.keys(mockExamAnswers).length;
+        document.getElementById('mockProgressText').textContent = `Question ${currentIndex + 1} / ${currentPool.length} (${answered} answered)`;
+      } else {
+        const stats = LocalDB.getStats(currentPool);
+        document.getElementById('progressAnswered').textContent = stats.answered;
+        document.getElementById('progressTotal').textContent = currentPool.length;
+        document.getElementById('progressCorrect').textContent = stats.correct;
+        document.getElementById('progressWrong').textContent = stats.wrong;
+      }
+    }
+
+    // =========================================================
+    // RENDER QUESTION
+    // Displays question prompt, options, answer history, and explanation
+    // =========================================================
+    function renderQuestion() {
+      if (!currentPool.length) {
+        document.getElementById('questionEN').textContent = "No questions match your current mode and filters.";
+        document.getElementById('questionZH').textContent = "";
+        document.getElementById('optionsGrid').innerHTML = "";
+        document.getElementById('cardMeta').innerHTML = "";
+        document.getElementById('imgWrap').style.display = "none";
+        document.getElementById('explanationBox').className = "explanation-container";
+        document.getElementById('jumpInput').value = 0;
+        document.getElementById('jumpTotalText').textContent = "/ 0";
+        document.getElementById('retakeBtn').style.display = 'none';
+        return;
+      }
+
+      const q = currentPool[currentIndex];
+
+      // Update Jump inputs
+      document.getElementById('jumpInput').value = currentIndex + 1;
+      document.getElementById('jumpTotalText').textContent = `/ ${currentPool.length}`;
+
+      // Check if this question is already answered in local DB (or in mock session)
+      const recorded = isMockMode ? mockExamAnswers[q.id] : LocalDB.getAnswer(q.id);
+      const isAnswered = !!recorded;
+
+      // Status pill badge
+      let statusBadgeHtml = '';
+      if (isAnswered) {
+        if (recorded.isCorrect) {
+          statusBadgeHtml = `<span class="tag-pill badge-correct">✅ Correct (${recorded.userAnswer})</span>`;
+        } else {
+          statusBadgeHtml = `<span class="tag-pill badge-wrong">❌ Wrong (You: ${recorded.userAnswer} | Right: ${q.answer})</span>`;
+        }
+        document.getElementById('retakeBtn').style.display = isMockMode ? 'none' : 'inline-block';
+      } else {
+        statusBadgeHtml = `<span class="tag-pill badge-unanswered">⏳ Unanswered</span>`;
+        document.getElementById('retakeBtn').style.display = 'none';
+      }
+
+      // Meta tags
+      const metaEl = document.getElementById('cardMeta');
+      const modeLabel = isMockMode ? `Mock Exam: Q${currentIndex + 1}/100`
+        : (currentMode === 'technical' ? `🎯 Technical: ${currentIndex + 1}/${currentPool.length}` : `Question ${currentIndex + 1} of ${currentPool.length}`);
+
+      metaEl.innerHTML = `
+        <span class="tag-pill badge-primary">${modeLabel}</span>
+        <span class="tag-pill">${q.chapter_en || 'General'}</span>
+        <span class="tag-pill">${q.type === 'judgement' ? 'True / False' : 'Multiple Choice'}</span>
+        ${q.is_technical ? '<span class="tag-pill" style="border:1px solid var(--primary);color:var(--primary);">Non-Obvious Technical</span>' : ''}
+        ${statusBadgeHtml}
+      `;
+
+      // Image
+      const imgWrap = document.getElementById('imgWrap');
+      const imgEl = document.getElementById('questionImg');
+      if (q.has_image && q.image_path) {
+        imgEl.src = q.image_path;
+        imgWrap.style.display = 'block';
+      } else {
+        imgWrap.style.display = 'none';
+      }
+
+      // Titles
+      document.getElementById('questionEN').textContent = q.question_en;
+      document.getElementById('questionZH').textContent = q.question_zh || "";
+
+      // Options
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = "";
+
+      const optList = [
+        { label: 'A', en: q.option_a_en, zh: q.option_a_zh },
+        { label: 'B', en: q.option_b_en, zh: q.option_b_zh },
+        { label: 'C', en: q.option_c_en, zh: q.option_c_zh },
+        { label: 'D', en: q.option_d_en, zh: q.option_d_zh }
+      ].filter(o => o.en || o.zh);
+
+      const explBox = document.getElementById('explanationBox');
+
+      optList.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "opt-btn";
+        const zh = opt.zh ? ` <span style="opacity:0.65;font-size:0.88em">(${opt.zh})</span>` : "";
+        btn.innerHTML = `<span class="opt-lbl">[${opt.label}]</span> <span>${opt.en}${zh}</span>`;
+
+        // If question was already answered, restore visual state
+        if (isAnswered) {
+          btn.disabled = true;
+          if (opt.label === q.answer) {
+            btn.classList.add('correct');
+          }
+          if (recorded.userAnswer === opt.label && !recorded.isCorrect) {
+            btn.classList.add('wrong');
+          }
+        }
+
+        btn.addEventListener('click', () => {
+          if (btn.disabled) return;
+
+          // Disable all buttons in this grid
+          const allBtns = grid.querySelectorAll('.opt-btn');
+          allBtns.forEach(b => b.disabled = true);
+
+          const isCorrect = (opt.label === q.answer);
+
+          // Record in DB or mock session
+          if (isMockMode) {
+            mockExamAnswers[q.id] = { userAnswer: opt.label, isCorrect: isCorrect };
+          } else {
+            LocalDB.recordAnswer(q.id, opt.label, isCorrect);
+          }
+
+          if (isCorrect) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+            // Highlight correct one
+            optList.forEach((o, idx) => {
+              if (o.label === q.answer) {
+                allBtns[idx].classList.add('correct');
+              }
+            });
+          }
+
+          updateScore();
+          showExplanation(q);
+
+          // Refresh status pill
+          metaEl.querySelector('.tag-pill:last-child').outerHTML = isCorrect
+            ? `<span class="tag-pill badge-correct">✅ Correct (${opt.label})</span>`
+            : `<span class="tag-pill badge-wrong">❌ Wrong (You: ${opt.label} | Right: ${q.answer})</span>`;
+
+          if (!isMockMode) {
+            document.getElementById('retakeBtn').style.display = 'inline-block';
+          }
+
+          if (isMockMode && Object.keys(mockExamAnswers).length === 100) {
+            setTimeout(finishMockExam, 1500);
+          }
+        });
+
+        grid.appendChild(btn);
+      });
+
+      // Show explanation if already answered, otherwise hide
+      if (isAnswered) {
+        showExplanation(q);
+      } else {
+        explBox.className = "explanation-container";
+      }
+
+      // Update Prev / Next button states
+      document.getElementById('prevBtn').disabled = (currentIndex === 0);
+      document.getElementById('nextBtn').disabled = (currentIndex >= currentPool.length - 1);
+    }
+
+    function showExplanation(q) {
+      const explBox = document.getElementById('explanationBox');
+      document.getElementById('whyText').textContent = q.why_en || "No specific rationale note provided.";
+      document.getElementById('lawText').textContent = q.explanation_zh ? `Legal Authority: ${q.explanation_zh}` : "";
+      explBox.classList.add('visible');
+    }
+
+    // Navigation buttons
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentIndex < currentPool.length - 1) {
+        currentIndex++;
+        if (!isMockMode) LocalDB.savePosition(currentMode, currentIndex);
+        renderQuestion();
+      }
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        if (!isMockMode) LocalDB.savePosition(currentMode, currentIndex);
+        renderQuestion();
+      }
+    });
+
+    // =========================================================
+    // FULLSCREEN TOGGLE (quiz view only)
+    // Uses the native Fullscreen API, with a CSS fixed-position
+    // fallback for browsers that don't support element fullscreen.
+    // =========================================================
+    const quizViewEl = document.getElementById('quizView');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    function setFullscreenUi(active) {
+      quizViewEl.classList.toggle('is-fullscreen', active);
+      fullscreenBtn.textContent = active ? '✕ Exit Fullscreen' : '⛶ Fullscreen';
+      fullscreenBtn.title = active ? 'Exit fullscreen (Esc / F)' : 'Enter fullscreen (F)';
+    }
+
+    function toggleFullscreen() {
+      const nativeEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (nativeEl) {
+        const exit = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exit) exit.call(document);
+        else setFullscreenUi(false);
+        return;
+      }
+      // Fallback mode is already active (no native API available)
+      if (quizViewEl.classList.contains('is-fullscreen')) {
+        setFullscreenUi(false);
+        return;
+      }
+      const request = quizViewEl.requestFullscreen || quizViewEl.webkitRequestFullscreen;
+      if (!request) {
+        setFullscreenUi(true);
+        return;
+      }
+      try {
+        const result = request.call(quizViewEl);
+        if (result && typeof result.catch === 'function') {
+          result.catch(() => setFullscreenUi(true));
+        }
+      } catch (err) {
+        setFullscreenUi(true);
+      }
+    }
+
+    function onFullscreenChange() {
+      const nativeEl = document.fullscreenElement || document.webkitFullscreenElement;
+      setFullscreenUi(nativeEl === quizViewEl);
+    }
+
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+
+    // Keyboard navigation: Left/Right arrows, 1-4 / A-D keys, F for fullscreen
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+      if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        if (quizViewEl.style.display !== 'none') toggleFullscreen();
+        return;
+      }
+
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        document.getElementById('nextBtn').click();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        document.getElementById('prevBtn').click();
+      } else {
+        const keyMap = { 'a': 'A', 'b': 'B', 'c': 'C', 'd': 'D', '1': 'A', '2': 'B', '3': 'C', '4': 'D' };
+        const label = keyMap[e.key.toLowerCase()];
+        if (label) {
+          const btns = document.querySelectorAll('.opt-btn');
+          btns.forEach(btn => {
+            const lbl = btn.querySelector('.opt-lbl');
+            if (lbl && lbl.textContent.includes(label) && !btn.disabled) {
+              btn.click();
+            }
+          });
+        }
+      }
+    });
+
+    // Initial load: Sequential practice with saved position
+    setStudyMode('sequential');
+  </script>
+</body>
+</html>
